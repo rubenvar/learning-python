@@ -1,7 +1,6 @@
 # Player classes for the 06 and 07 TicTacToe games
 import math
 import random
-from tkinter.messagebox import NO
 
 
 class Player:
