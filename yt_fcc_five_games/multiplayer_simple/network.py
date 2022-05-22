@@ -1,4 +1,8 @@
 import socket
+import pickle
+
+# chaged from sending just string positions to sending full Player object
+# use pickle to serialize objects ("JSON.stringify")
 
 
 class Network():
@@ -7,21 +11,21 @@ class Network():
         self.server = "192.168.0.12"
         self.port = 5555
         self.addr = (self.server, self.port)
-        self.pos = self.connect()
+        self.p = self.connect()
 
-    def get_pos(self):
-        return self.pos
+    def get_p(self):
+        return self.p
 
     def connect(self):
         try:
             self.client.connect(self.addr)
-            return self.client.recv(2048).decode()
+            return pickle.loads(self.client.recv(2048))
         except:
             pass
 
     def send(self, data):
         try:
-            self.client.send(str.encode(data))
-            return self.client.recv(2048).decode()
+            self.client.send(pickle.dumps(data))
+            return pickle.loads(self.client.recv(2048))
         except socket.error as e:
             print(e)
